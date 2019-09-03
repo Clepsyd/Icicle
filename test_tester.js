@@ -88,4 +88,8 @@ describe("#toEqual", function() {
     console.log(expect(foo.bar).toEqual("baz"));
     console.log(expect(foo.thing).toEqual("thingy"));
   });
+
+  it("Should return false if foo.bar does not equal baz", function() {
+    console.log(expect(foo.bar).toEqual("plop"));
+  });
 });

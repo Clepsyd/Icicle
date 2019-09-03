@@ -20,8 +20,6 @@ function it(description, func) {
   func();
 }
 
-// const it = (msg, fn) => describe("  " + msg, fn);
-
 function double(func, message, response) {
   return (this.message = response);
 }
@@ -31,19 +29,19 @@ Expect.prototype.not = function(a) {
 };
 
 Expect.prototype.toEqual = function(matcher) {
-  return matcher === this.subject;
+  return formatResult(matcher === this.subject);
 };
 
 Expect.prototype.notToEqual = function(matcher) {
-  return !this.toEqual(matcher);
+  return formatResult(!this.toEqual(matcher));
 };
 
 Expect.prototype.toContain = function(element) {
-  return this.subject.includes(element);
+  return formatResult(this.subject.includes(element));
 };
 
 Expect.prototype.notToContain = function(element) {
-  return !this.toContain(element);
+  return formatResult(!this.toContain(element));
 };
 
 Expect.prototype.toRaiseError = function(expectedError) {
@@ -51,14 +49,14 @@ Expect.prototype.toRaiseError = function(expectedError) {
     this.subject();
   } catch (errorMessage) {
     if (!expectedError) {
-      return true;
+      return formatResult(true);
     } else if (errorMessage === expectedError) {
-      return true;
+      return formatResult(true);
     }
   }
-  return false;
+  return formatResult(false);
 };
 
 Expect.prototype.notToRaiseError = function(expectedError) {
-  return !this.toRaiseError(expectedError);
+  return formatResult(!this.toRaiseError(expectedError));
 };
