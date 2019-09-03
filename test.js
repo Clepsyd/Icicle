@@ -10,6 +10,22 @@ function formatResult(boolean) {
   return boolean ? "Pass" : "Fail";
 }
 
+function describe(description, func) {
+  console.log(description);
+  func();
+}
+
+function it(description, func) {
+  console.log(description);
+  func();
+}
+
+// const it = (msg, fn) => describe("  " + msg, fn);
+
+function double(func, message, response) {
+  return (this.message = response);
+}
+
 Expect.prototype.not = function(a) {
   return a;
 };
