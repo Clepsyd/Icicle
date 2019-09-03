@@ -7,7 +7,9 @@ function expect(subject) {
 }
 
 function formatResult(boolean) {
-  return boolean ? "Pass" : "Fail";
+  return boolean
+    ? console.log("%cPass", "background: green; color: white;")
+    : console.error("%cFail", "background: red; color: white;");
 }
 
 function describe(description, func) {
@@ -29,19 +31,19 @@ Expect.prototype.not = function(a) {
 };
 
 Expect.prototype.toEqual = function(matcher) {
-  return formatResult(matcher === this.subject);
+  matcher === this.subject;
 };
 
 Expect.prototype.notToEqual = function(matcher) {
-  return formatResult(!this.toEqual(matcher));
+  this.toEqual !== matcher;
 };
 
 Expect.prototype.toContain = function(element) {
-  return formatResult(this.subject.includes(element));
+  this.subject.includes(element);
 };
 
 Expect.prototype.notToContain = function(element) {
-  return formatResult(!this.toContain(element));
+  !this.toContain(element);
 };
 
 Expect.prototype.toRaiseError = function(expectedError) {
@@ -49,14 +51,18 @@ Expect.prototype.toRaiseError = function(expectedError) {
     this.subject();
   } catch (errorMessage) {
     if (!expectedError) {
-      return formatResult(true);
+      return true;
     } else if (errorMessage === expectedError) {
-      return formatResult(true);
+      return true;
     }
   }
-  return formatResult(false);
+  return false;
 };
 
 Expect.prototype.notToRaiseError = function(expectedError) {
-  return formatResult(!this.toRaiseError(expectedError));
+  return !this.toRaiseError(expectedError);
+};
+
+Expect.prototype.toBeEmpty = function() {
+  this.subject === undefined || this.subject.length == 0;
 };
