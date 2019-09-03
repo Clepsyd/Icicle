@@ -14,6 +14,20 @@ Foo.prototype.notAnError = function() {
 };
 
 let foo = new Foo();
+
+var foobarEqBaz = describe("#toEqual", function() {
+  return it("Should return true if foobar equals baz", function() {
+    return expect(foo.bar).toEqual("baz");
+  });
+});
+
+var toEqual = describe("#toEqual", function() {
+  it("Should return true if ALL are true", function() {
+    expect(foo.bar).toEqual("baz");
+    expect(foo.thing).toEqual("thingy");
+  });
+});
+
 let lines = [
 "toEqual",
 "--------------------------------------",
@@ -51,6 +65,8 @@ let lines = [
 "Should fail: " + expect(foo.error).toRaiseError("Another error message"),
 "Should pass: " + expect(foo.notAnError).notToRaiseError("This is an error"),
 "Should fail: " + expect(foo.error).notToRaiseError("This is an error"),
+foobarEqBaz,
+toEqual,
 ]
 
 for (line of lines){
@@ -62,18 +78,8 @@ for (line of lines){
 
 //testing describe and it blocks
 
-describe("#toEqual", function() {
-  it("Should return true if foobar equals baz", function() {
-    expect(foo.bar).toEqual("baz");
-  });
-});
+
 
 //testing multiple expects
 //this needs to return true if ALL are true &&
 //this needs to return false if one is false ||
-describe("#toEqual", function() {
-  it("Should return true if ALL are true", function() {
-    expect(foo.bar).toEqual("baz");
-    expect(foo.thing).toEqual("thingy");
-  });
-});
