@@ -1,5 +1,4 @@
 class Expect {
-
   constructor(subject) {
     this.subject = subject;
   }
@@ -19,12 +18,10 @@ class Expect {
   toRaiseError(expectedError) {
     try {
       this.subject();
-    }
-    catch (errorMessage) {
+    } catch (errorMessage) {
       if (!expectedError) {
         return true;
-      }
-      else if (errorMessage === expectedError) {
+      } else if (errorMessage === expectedError) {
         return true;
       }
     }
@@ -33,7 +30,6 @@ class Expect {
   notToRaiseError(expectedError) {
     return !this.toRaiseError(expectedError);
   }
-
 }
 
 function expect(subject) {
@@ -45,23 +41,19 @@ function formatResult(boolean) {
 }
 
 function describe(description, func) {
-  return description + "\n" + func()
+  return description + "</br>" + func();
 }
 
 function it(description, func) {
-  return description + "\n" + func()
+  return description + "</br>" + formatResult(func());
 }
-
-// const it = (msg, fn) => describe("  " + msg, fn);
 
 function double(func, message, response) {
   return (this.message = response);
 }
 
-
-
-
-
-
-
-
+function Mock(mockName, mockValue) {
+  return function mockName() {
+    return mockValue;
+  };
+}
