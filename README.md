@@ -32,7 +32,6 @@ Place your source files and spec files in the `<head>` of SpecRunner.html.
 ```JavaScript
 //In fooSpec.js
 //tests are written like so
-let foo = new Foo();
 
 describe('foo', () => {
   
