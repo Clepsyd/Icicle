@@ -7,7 +7,7 @@
 
 - Download the repo
 - Copy `icicle/` and `SpecRunner.html` in your project
-Place your source files and spec files in the `<head>` of SpecRunner.html.
+- Place your source files and spec files in the `<head>` of SpecRunner.html.
 
 ### Example
 
