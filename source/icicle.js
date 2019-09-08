@@ -7,25 +7,25 @@ class Expect {
 
   toEqual(matcher) {
     if (matcher != this.subject) {
-      throw `Expected ${this.subject} to equal ${matcher}`;
+      throw new Error(`Expected ${this.subject} to equal ${matcher}`);
     }
   }
 
   notToEqual(matcher) {
     if (matcher == this.subject) {
-      throw `Expected ${this.subject} to equal ${matcher}`;
+      throw new Error(`Expected ${this.subject} to equal ${matcher}`);
     }
   }
 
   toContain(element) {
     if (!this.subject.includes(element)) {
-      throw `Expected ${this.subject} to contain ${element}`;
+      throw new Error(`Expected ${this.subject} to contain ${element}`);
     }
   }
 
   notToContain(element) {
     if (this.subject.includes(element)) {
-      throw `Expected ${this.subject} not to contain ${element}`;
+      throw new Error(`Expected ${this.subject} not to contain ${element}`);
     }
   }
 
@@ -34,17 +34,17 @@ class Expect {
       this.subject();
     } catch (errorMessage) {
       if (errorMessage !== expectedError) {
-        throw `Expected ${this.subject} to throw ${expectedError}, got ${errorMessage}`;
+        throw new Error(`Expected ${this.subject} to throw ${expectedError}, got ${errorMessage}`);
       }
     }
-    throw `Expected ${this.subject} to throw ${expectedError} but nothing was raised`;
+    throw new Error(`Expected ${this.subject} to throw ${expectedError} but nothing was raised`);
   }
 
   notToRaiseError() {
     try {
       this.subject();
     } catch (errorMessage) {
-      throw `Expected ${this.subject} not to throw an error, got ${errorMessage}`;
+      throw new Error(`Expected ${this.subject} not to throw an error, got ${errorMessage}`);
     }
   }
 
@@ -93,17 +93,18 @@ let outputDescDescription =
 function runTests(){
 
   formatterInit();
+  let errorMessage;
+  let tests = 0;
+  let fails = 0;
 
   for(block of descBlocks) {
-    let tests = 0;
-    let fails = 0;
-    let errorMessage;
+    
     outputDescDescription(block.description);
     try {
       block.func();
     }
-    catch (err) {
-      errorMessage = err;
+    catch (error) {
+      errorMessage = `${error}, in ${error.stack}`;
     }
     for (itBlock of block.itBlocks) {
       tests++;
@@ -116,11 +117,13 @@ function runTests(){
         outputFailingItDescription(itBlock.description);
         outputExample("F");
         outputError(block.description);
-        outputError(itBlock.description + ": " + error);
+        outputError(itBlock.description +
+        ": " +
+        `${error}, in ${error.stack}`);
       };
     }
-    outputSummary([tests - fails, fails])
-    outputError(errorMessage);
   }
+  outputSummary([tests - fails, fails, errorMessage])
+  outputError(errorMessage);
 
 }

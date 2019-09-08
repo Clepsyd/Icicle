@@ -50,8 +50,15 @@ htmlFormatter = () => {
     let failedHtml = document.createElement("ins");
     failedHtml.setAttribute("class", "fail");
     passedHtml.innerText = passed + " passed, ";
-    failedHtml.innerText = failed + " failed.";
+    failedHtml.innerText = failed + " failed";
     results.append(passedHtml, failedHtml);
+    
+    if(arr[2]){
+      let errorHtml = document.createElement("ins");
+      errorHtml.setAttribute("class", "fail");
+      errorHtml.innerText = ", 1 error occurred outside of example(s)"
+      results.append(errorHtml);
+    }
     summary.appendChild(results);
   }
   
