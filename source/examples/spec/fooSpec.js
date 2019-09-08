@@ -24,6 +24,3 @@ describe('foo', () => {
   plop
 });
 
-window.onload = () => {
-runTests(descBlocks);
-}

@@ -127,3 +127,7 @@ function runTests(){
   outputError(errorMessage);
 
 }
+
+window.onload = () => {
+  runTests(descBlocks);
+}
