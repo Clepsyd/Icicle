@@ -84,31 +84,43 @@ function consoleFormat(string) {
 }
 
 let outputDescDescription =
-    outputItDescription =
+    outputPassingItDescription =
+    outputFailingItDescription =
     outputExample =
-    outputError = consoleFormat;
+    outputError =
+    outputSummary = consoleFormat;
 
 function runTests(){
 
   formatterInit();
 
   for(block of descBlocks) {
+    let tests = 0;
+    let fails = 0;
+    let errorMessage;
     outputDescDescription(block.description);
     try {
       block.func();
     }
     catch (err) {
+      errorMessage = err;
     }
     for (itBlock of block.itBlocks) {
-      outputItDescription(itBlock.description);
+      tests++;
       try {
         itBlock.func();
+        outputPassingItDescription(itBlock.description);
         outputExample(".");
       } catch (error) {
+        fails++;
+        outputFailingItDescription(itBlock.description);
         outputExample("F");
+        outputError(block.description);
         outputError(itBlock.description + ": " + error);
       };
     }
+    outputSummary([tests - fails, fails])
+    outputError(errorMessage);
   }
 
 }

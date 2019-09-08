@@ -1,0 +1,42 @@
+body {
+  font-family: monospace;
+  font-size: 110%;
+  background-color: rgb(190, 245, 255)
+}
+
+ins {
+  text-decoration-line: none;
+}
+
+footer {
+  font-size: 10px;
+  position: fixed;
+  bottom: 1%
+}
+
+#testOutputs, #summary {
+  font-size: 150%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+#logo {
+  height: 12%;
+  width: 12%;
+}
+
+.it {
+  margin-left: 1%;
+}
+
+#errors {
+  color: red;
+}
+
+.pass {
+  color: green;
+}
+
+.fail {
+  color: red;
+}
