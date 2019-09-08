@@ -1,4 +1,5 @@
 # Icicle
+![logo](icicle/img/icicleLogo.png)
 
 ## A JavaScript testing infrastructure, based on rspec and jasmine
 
