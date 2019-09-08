@@ -1,59 +1,114 @@
+formatterInit = htmlFormatter;
+
 class Expect {
   constructor(subject) {
     this.subject = subject;
   }
 
   toEqual(matcher) {
-    return matcher === this.subject;
+    if (matcher != this.subject) {
+      throw `Expected ${this.subject} to equal ${matcher}`;
+    }
   }
+
   notToEqual(matcher) {
-    return !this.toEqual(matcher);
+    if (matcher == this.subject) {
+      throw `Expected ${this.subject} to equal ${matcher}`;
+    }
   }
+
   toContain(element) {
-    return this.subject.includes(element);
+    if (!this.subject.includes(element)) {
+      throw `Expected ${this.subject} to contain ${element}`;
+    }
   }
+
   notToContain(element) {
-    return !this.toContain(element);
+    if (this.subject.includes(element)) {
+      throw `Expected ${this.subject} not to contain ${element}`;
+    }
   }
+
   toRaiseError(expectedError) {
     try {
       this.subject();
     } catch (errorMessage) {
-      if (!expectedError) {
-        return true;
-      } else if (errorMessage === expectedError) {
-        return true;
+      if (errorMessage !== expectedError) {
+        throw `Expected ${this.subject} to throw ${expectedError}, got ${errorMessage}`;
       }
     }
-    return false;
+    throw `Expected ${this.subject} to throw ${expectedError} but nothing was raised`;
   }
-  notToRaiseError(expectedError) {
-    return !this.toRaiseError(expectedError);
+
+  notToRaiseError() {
+    try {
+      this.subject();
+    } catch (errorMessage) {
+      throw `Expected ${this.subject} not to throw an error, got ${errorMessage}`;
+    }
   }
+
 }
 
 function expect(subject) {
   return new Expect(subject);
 }
 
-function formatResult(boolean) {
-  return boolean ? "Pass" : "Fail";
-}
+
+let descBlocks = [];
 
 function describe(description, func) {
-  return description + "</br>" + func();
+  
+  let itBlocks = [];
+
+  ((globalObj) => {
+    function it(description, func) {
+      itBlocks.push({
+        "description": description,
+        "func": func
+      });
+    }
+    globalObj.it = it;
+  })(globalThis);
+
+  descBlocks.push({
+    "description": description,
+    "func": func,
+    "itBlocks": itBlocks
+  });
+
 }
 
-function it(description, func) {
-  return description + "</br>" + formatResult(func());
+function consoleFormat(string) {
+  console.log(string);
 }
 
-function double(func, message, response) {
-  return (this.message = response);
-}
+let outputDescDescription =
+    outputItDescription =
+    outputExample =
+    outputError = consoleFormat;
 
-function Mock(mockName, mockValue) {
-  return function mockName() {
-    return mockValue;
-  };
+function runTests(){
+
+  formatterInit();
+
+  for(block of descBlocks) {
+    outputDescDescription(block.description);
+    try {
+      block.func();
+    }
+    catch (err) {
+    }
+    for (itBlock of block.itBlocks) {
+      outputItDescription(itBlock.description);
+      try {
+        itBlock.func();
+        outputExample(".");
+      } catch (error) {
+        outputExample("F");
+        outputError(itBlock.description + ": " + error);
+      };
+    }
+  }
+
 }

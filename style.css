@@ -1,0 +1,19 @@
+body {
+  font-family: monospace
+}
+
+.it {
+  margin-left: 1%;
+}
+
+#errors {
+  color: red;
+}
+
+.pass {
+  color: green;
+}
+
+.fail {
+  color: red;
+}

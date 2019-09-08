@@ -1,17 +1,70 @@
-//write tests here
-var saySomthing = describe("#saySomthing", function() {
-  return it("Should say hello", function() {
-    return expect(saySomthing("Hello")).toEqual("You said: Hello");
-  });
-});
+class Expect {
+  constructor(subject) {
+    this.subject = subject;
+  }
 
-let lines = [
-  //test variable names goes here
-  saySomthing
-];
+  toEqual(matcher) {
+    return matcher === this.subject;
+  }
+  notToEqual(matcher) {
+    return !this.toEqual(matcher);
+  }
+  toContain(element) {
+    return this.subject.includes(element);
+  }
+  notToContain(element) {
+    return !this.toContain(element);
+  }
+  toRaiseError(expectedError) {
+    try {
+      this.subject();
+    } catch (errorMessage) {
+      if (!expectedError) {
+        return true;
+      } else if (errorMessage === expectedError) {
+        return true;
+      }
+    }
+    return false;
+  }
+  notToRaiseError(expectedError) {
+    return !this.toRaiseError(expectedError);
+  }
+}
 
-for (line of lines) {
-  let para = document.createElement("P");
-  para.innerHTML = line;
-  document.body.appendChild(para);
+function expect(subject) {
+  return new Expect(subject);
+}
+
+//
+
+let itBlocks = []
+
+function it(description, func) {
+  itBlocks.push([description, func]);
+}
+
+function describe(description, func) {
+  describeBlocks.push([description, func]);
+}
+
+function toEqual(matcher) {
+  if (matcher != this.subject) {
+    throw "Expected matcher to equal thi.subject"
+  }
+}
+
+function testOutput(arrayOfTests){
+
+  for (itBlock of arrayOfTests){
+
+    try{
+      itBlock();
+    }
+    catch (err) {
+      return "F"
+    }
+     return "."
+    }
+
 }
