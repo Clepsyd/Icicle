@@ -32,19 +32,23 @@ class Expect {
   toRaiseError(expectedError) {
     try {
       this.subject();
+      throw "0";
     } catch (errorMessage) {
-      if (errorMessage !== expectedError) {
-        throw new Error(`Expected ${this.subject} to throw ${expectedError}, got ${errorMessage}`);
+      console.log(errorMessage);
+      if (errorMessage === "0"){
+        throw new Error(`Expected ${this.subject.name} to throw an error but nothing was raised`);
+      }
+      else if (expectedError && errorMessage !== expectedError) {
+        throw new Error(`Expected ${this.subject.name} to throw ${expectedError}, got ${errorMessage}`);
       }
     }
-    throw new Error(`Expected ${this.subject} to throw ${expectedError} but nothing was raised`);
   }
 
   notToRaiseError() {
     try {
       this.subject();
     } catch (errorMessage) {
-      throw new Error(`Expected ${this.subject} not to throw an error, got ${errorMessage}`);
+      throw new Error(`Expected ${this.subject.name} not to throw an error, got ${errorMessage}`);
     }
   }
 
