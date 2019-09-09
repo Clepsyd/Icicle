@@ -1,4 +1,4 @@
-let foo = new Foo();
+let foo;
 
 describe('foo', () => {
   
@@ -37,7 +37,21 @@ describe('foo', () => {
     expect(foo.notAnError).toRaiseError(); // THIS TEST SHOULD FAIL.
   });
 
-  plop // This will raise an error shown in the test outputs.
+  // plop // This will raise an error shown in the test outputs.
 
 });
 
+describe('foo again', () => {
+  
+  foo = new Foo();
+
+  it("has a bar attribute that returns baz", () => {
+    expect(foo.bar).toEqual("baz");
+  });
+
+  it("has a bar attribute that doesn't return 'Hello'", () => {
+    expect(foo.bar).notToEqual("Hello");
+  });
+  // plop // This will raise an error shown in the test outputs.
+
+});

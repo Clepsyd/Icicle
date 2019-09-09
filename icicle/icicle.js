@@ -59,26 +59,26 @@ function expect(subject) {
 }
 
 
-let descBlocks = [];
+var descBlocks = [];
+let itBlocks;
+
+function it(description, func) {
+  itBlocks.push({
+    "description": description,
+    "func": func
+  });
+}
 
 function describe(description, func) {
   
-  let itBlocks = [];
+  itBlocks = [];
 
-  ((globalObj) => {
-    function it(description, func) {
-      itBlocks.push({
-        "description": description,
-        "func": func
-      });
-    }
-    globalObj.it = it;
-  })(globalThis);
+  func();
 
   descBlocks.push({
     "description": description,
     "func": func,
-    "itBlocks": itBlocks
+    "examples": itBlocks
   });
 
 }
@@ -101,35 +101,36 @@ function runTests(){
   let tests = 0;
   let fails = 0;
 
-  for(block of descBlocks) {
+  for(let block of descBlocks) {
     
     outputDescDescription(block.description);
-    try {
-      block.func();
-    }
-    catch (error) {
-      errorMessage = `${error}, in ${error.stack}`;
-    }
-    for (itBlock of block.itBlocks) {
+    // try {
+    //   block.func();
+    // }
+    // catch (error) {
+    //   errorMessage = `${error}, in ${error.stack}`;
+    // }
+    for (let example of block.examples) {
       tests++;
       try {
-        itBlock.func();
-        outputPassingItDescription(itBlock.description);
+        example.func();
+        outputPassingItDescription(example.description, block.description);
         outputExample(".");
       } catch (error) {
         fails++;
-        outputFailingItDescription(itBlock.description);
+        outputFailingItDescription(example.description, block.description);
         outputExample("F");
         outputError(block.description);
-        outputError(itBlock.description +
+        outputError(example.description +
         ": " +
         `${error}, in ${error.stack}`);
       };
     }
   }
   outputSummary([tests - fails, fails, errorMessage])
-  outputError(errorMessage);
-
+  if (errorMessage) {
+    outputError(errorMessage);
+  }
 }
 
 window.onload = () => {

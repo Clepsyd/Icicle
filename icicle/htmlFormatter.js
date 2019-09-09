@@ -8,22 +8,25 @@ htmlFormatter = () => {
   function htmlDescribe(string){
     let h2 = document.createElement("h2");
     h2.setAttribute("class", "describe")
+    h2.setAttribute("id", `describe_${string}`)
     h2.innerText = string;
     descriptions.appendChild(h2);
   }
 
-  function failingHtmlIt(string){
-    let h3 = document.createElement("h3")
-    h3.setAttribute("class", "it fail")
+  function failingHtmlIt(string, descName){
+    descElement = document.getElementById(`describe_${descName}`);
+    let h3 = document.createElement("h3");
+    h3.setAttribute("class", "it fail");
     h3.innerText = string;
-    descriptions.appendChild(h3);
+    descElement.appendChild(h3);
   }
 
-  function passingHtmlIt(string){
+  function passingHtmlIt(string, descName){
+    descElement = document.getElementById(`describe_${descName}`);
     let h3 = document.createElement("h3")
     h3.setAttribute("class", "it pass")
     h3.innerText = string;
-    descriptions.appendChild(h3);
+    descElement.appendChild(h3);
   }
 
   function htmlExample(string) {
