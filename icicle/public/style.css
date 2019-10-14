@@ -1,0 +1,51 @@
+body {
+  font-family: monospace;
+  background-color: rgb(190, 245, 255);
+  margin: 2%;
+}
+
+ins {
+  text-decoration-line: none;
+}
+
+header {
+  align-content: center;
+}
+
+footer {
+  font-size: 10px;
+  position: fixed;
+  bottom: 1%
+}
+
+#testOutputs, #summary {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+#testOutputs {
+  font-size: 150%;
+}
+
+#logo {
+  position: relative;
+  text-align: center;
+  height: 12%;
+  width: 12%;
+}
+
+.it {
+  margin-left: 1%;
+}
+
+#errors {
+  color: red;
+}
+
+.pass {
+  color: green;
+}
+
+.fail {
+  color: red;
+}
